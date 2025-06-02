@@ -11,16 +11,12 @@ public class CausalBundleAsset : ScriptableObject
     [SerializeField]
     private TextAsset causalBundleTextAsset;
 
-    private CausalBundle<string> causalBundle;
+    private object causalBundle;
 
-    public CausalBundle<string> CausalBundle
+    public CausalBundle<TFactValue> GetCausalBundle<TFactValue>()
+        where TFactValue : class
     {
-        get
-        {
-            if (causalBundle == null) {
-                causalBundle = SerializationUtils.FromJson<string>(causalBundleTextAsset.text);
-            }
-            return causalBundle;
-        }
+        causalBundle ??= SerializationUtils.FromJson<TFactValue>(causalBundleTextAsset.text);
+        return (CausalBundle<TFactValue>)causalBundle;
     }
 }
